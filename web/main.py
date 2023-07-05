@@ -12,7 +12,8 @@ briefs_list = sorted(list(briefs_dir.glob("*")), reverse=True)
 articles_dir = Path("web/articles")
 articles_list = sorted(list(articles_dir.glob("*")), reverse=True)
 
-body_classes = "mx-auto px-4 max-w-screen-md sm:max-w-full"
+body_classes = "mx-auto sm:max-w-full"
+body_style = "max-width: 768px;"
 
 
 def briefs():
@@ -61,34 +62,31 @@ original content."
 @ui.page("/")
 def home():
     header()
-    with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
-        with ui.grid(columns=1).classes(body_classes):
-            briefs()
-            copyright()
+    with ui.grid(columns=1).classes(body_classes).style(body_style):
+        briefs()
+        copyright()
 
 
 @ui.page("/about")
 def about():
     header()
-    with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
-        with ui.grid(columns=1).classes(body_classes):
-            ui.markdown(Path("web/about.md").read_text())
-            copyright()
+    with ui.grid(columns=1).classes(body_classes).style(body_style):
+        ui.markdown(Path("web/about.md").read_text())
+        copyright()
 
 
 @ui.page("/article/{date}")
 def view_article(date: str):
     header()
-    with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
-        with ui.grid(columns=1).classes(body_classes):
-            for article_path in articles_list:
-                if date in article_path.stem:
-                    if article_path.suffix == ".md":
-                        ui.markdown(article_path.read_text())
-                    elif article_path.suffix == ".html":
-                        ui.html(article_path.read_text())
-                    break
-            copyright()
+    with ui.grid(columns=1).classes(body_classes).style(body_style):
+        for article_path in articles_list:
+            if date in article_path.stem:
+                if article_path.suffix == ".md":
+                    ui.markdown(article_path.read_text())
+                elif article_path.suffix == ".html":
+                    ui.html(article_path.read_text())
+                break
+        copyright()
 
 
 if __name__ in {"__main__", "__mp_main__"}:
