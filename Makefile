@@ -13,7 +13,7 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 deps:
 	python3 -m pip install -U pip
 	python3 -m pip install -U click logzero nicegui pathlib
-	python3 -m pipx install -U black
+	python3 -m pipx install black
 
 # Launch the website
 serve:
