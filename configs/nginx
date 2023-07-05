@@ -1,0 +1,22 @@
+server {
+    listen 80;
+    server_name codecurrents.blog;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /media/ {
+        root /home/michel/blog/web/media;
+    }
+
+     location /static/ {
+        root /home/michel/blog/web/static;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_pass http://localhost:8080/;
+    }
+}

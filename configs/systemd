@@ -1,0 +1,12 @@
+[Unit]
+Description=Blog
+After=network.target
+
+[Service]
+User=michel
+WorkingDirectory=/home/michel/blog
+ExecStart=/usr/bin/make serve
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
