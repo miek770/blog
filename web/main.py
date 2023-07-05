@@ -21,7 +21,8 @@ def briefs():
             # Show the card brief
             x = brief_path
             with ui.card().classes("container mx-auto").on(
-                "click", lambda x=x: ui.open(f"/article/{x.stem}")
+                "click",
+                lambda x=x: ui.open(f"/article/{x.stem}"),
             ):
                 with ui.row():
                     if brief_path.suffix == ".md":
@@ -93,4 +94,3 @@ def view_article(date: str):
 
 if __name__ in {"__main__", "__mp_main__"}:
     ui.run(title=__title__)
-
