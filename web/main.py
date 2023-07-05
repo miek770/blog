@@ -3,7 +3,7 @@ from nicegui import ui
 from pathlib import Path
 
 
-__title__ = "Michel Lavoie's blog"
+__title__ = "Code & Currents - Michel Lavoie's blog"
 
 
 briefs_dir = Path("web/briefs")
@@ -12,7 +12,7 @@ briefs_list = sorted(list(briefs_dir.glob("*")), reverse=True)
 articles_dir = Path("web/articles")
 articles_list = sorted(list(articles_dir.glob("*")), reverse=True)
 
-body_width = "800px"
+body_classes = "mx-auto px-4 max-w-screen-md sm:max-w-full"
 
 
 def briefs():
@@ -62,7 +62,7 @@ original content."
 def home():
     header()
     with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
-        with ui.grid(columns=1).style(f"width: {body_width}"):
+        with ui.grid(columns=1).classes(body_classes):
             briefs()
             copyright()
 
@@ -71,7 +71,7 @@ def home():
 def about():
     header()
     with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
-        with ui.grid(columns=1).style(f"width: {body_width}"):
+        with ui.grid(columns=1).classes(body_classes):
             ui.markdown(Path("web/about.md").read_text())
             copyright()
 
@@ -80,7 +80,7 @@ def about():
 def view_article(date: str):
     header()
     with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
-        with ui.grid(columns=1).style(f"width: {body_width}"):
+        with ui.grid(columns=1).classes(body_classes):
             for article_path in articles_list:
                 if date in article_path.stem:
                     if article_path.suffix == ".md":
