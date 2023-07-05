@@ -59,7 +59,7 @@ original content."
 
 
 @ui.page("/")
-def main():
+def home():
     header()
     with ui.grid(columns=1).style("width: 100%").classes("place-items-center"):
         with ui.grid(columns=1).style(f"width: {body_width}"):
@@ -91,6 +91,6 @@ def view_article(date: str):
             copyright()
 
 
-ui.run(
-    title=__title__,
-)
+if __name__ in {"__main__", "__mp_main__"}:
+    ui.run(title=__title__)
+
