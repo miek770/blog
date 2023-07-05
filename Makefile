@@ -1,5 +1,14 @@
 RAW_DIR := raws
 
+# Determine the operating system
+ifeq ($(OS),Windows_NT)
+	# Windows
+	PYTHON := py
+else
+	# Linux or macOS
+	PYTHON := python3
+endif
+
 # Define the publish target
 publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 	@echo "Publishing completed."
@@ -7,14 +16,14 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 # Pattern rule to specify how to build each file
 %: $(RAW_DIR)/%
 	@echo "Processing $<"
-	python3 ./manage.py --file_path "$<"
+	$(PYTHON) ./manage.py --file_path "$<"
 
 # Install dependencies
 deps:
-	python3 -m pip install -U pip
-	python3 -m pip install -U click logzero nicegui pathlib
-	python3 -m pipx install black
+	$(PYTHON) -m pip install -U pip
+	$(PYTHON) -m pip install -U click logzero nicegui pathlib pipx
+	$(PYTHON) -m pipx install black
 
 # Launch the website
 serve:
-	python3 ./web/main.py
+	$(PYTHON) ./web/main.py
