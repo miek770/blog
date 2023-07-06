@@ -5,7 +5,7 @@ ifeq ($(OS),Windows_NT)
 	# Windows
 	PYTHON := py
 else
-	# Linux or macOS
+	# Linux
 	PYTHON := python3
 endif
 
