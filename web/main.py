@@ -42,8 +42,6 @@ def header():
         ui.label(__title__).style("color: #111111")
         ui.link("Home", "/")
         ui.link("About", "/about")
-        # ui.label("Search").style("color: #111111")
-        # ui.input().props("dense")
 
 
 def copyright():
@@ -90,5 +88,5 @@ def view_article(date: str):
         copyright()
 
 
-if __name__ in {"__main__", "__mp_main__"}:
+if __name__ == "__main__":
     ui.run(title=__title__)
