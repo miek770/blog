@@ -26,10 +26,7 @@ def briefs():
                 lambda x=x: ui.open(f"/article/{x.stem}"),
             ):
                 with ui.row():
-                    if brief_path.suffix == ".md":
-                        ui.markdown(brief_path.read_text()).style("color: #555555")
-                    elif brief_path.suffix == ".html":
-                        ui.html(brief_path.read_text()).style("color: #555555")
+                    ui.markdown(brief_path.read_text()).style("color: #555555")
                 with ui.row().style("width: 100%").classes("flex justify-end"):
                     ui.link("Read article", f"/article/{brief_path.stem}")
                     ui.label(f"Posted on {brief_path.stem}")
