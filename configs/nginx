@@ -5,11 +5,11 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
 
     location /media/ {
-        root /home/michel/blog/web/media;
+        root /home/michel/blog/web;
     }
 
      location /static/ {
-        root /home/michel/blog/web/static;
+        root /home/michel/blog/web;
     }
 
     location / {
