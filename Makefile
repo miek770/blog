@@ -21,7 +21,7 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 # Install dependencies
 deps:
 	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -U click logzero nicegui pathlib pipx
+	$(PYTHON) -m pip install -U click logzero nbconvert nicegui pathlib pipx
 	$(PYTHON) -m pipx install black
 
 # Launch the website
