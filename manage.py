@@ -5,15 +5,21 @@ from pathlib import Path
 import subprocess as sub
 import platform
 import fileinput
+import sys
 
 
 def retarget_media_files(path: Path):
+    print(f" - Retargetting media files for {path}")
+
     # Open the file in place for editing
     with fileinput.FileInput(path, inplace=True) as file:
+
         # Iterate over each line in the file
         for line in file:
+
             # Replace the target string with the desired replacement
-            updated_line = line.replace("![png](2023-07-xx_files/", "![png](../media/")
+            updated_line = line.replace(f"![png]({path.stem}_files/", "![png](../media/")
+
             # Print the modified line to the file
             print(updated_line, end='')
 
@@ -28,6 +34,51 @@ def get_first_400_characters(file: Path) -> str:
     first_400_characters = content[:400]
 
     return first_400_characters
+
+
+def replace_matches(match: re.match, counter: int, filename: str) -> str:
+    tex = match.strip("%%latex\n$")
+    print(f" - LaTeX string \"{tex}\" to be replaced with an image.")
+
+    # Image filename
+    img_filename = f"{filename}_latex_{counter:02d}"
+
+    # Generate the image of the LaTeX expression
+    sub.run([
+        "bash",
+        "./tex2png.sh",
+        tex,
+        img_filename,
+    ])
+
+    # Move the image to the correct location
+    Path(f"web/media/{img_filename}.png").unlink(missing_ok=True)
+    shutil.move(f"tmp/{img_filename}.png", "web/media")
+
+    # Change the LaTeX with the image reference for the Markdown file
+    replacement = f"\n\n\n![png](../media/{img_filename}.png)\n\n\n"
+
+    print(f" - LaTeX string \"{tex}\" replaced with \"{replacement}\"")
+    return replacement
+
+
+def latex_to_image(file: Path):
+    print(f" - Converting LaTeX to images for file {file}")
+
+    content = file.read_text()
+
+    pattern = r"%%latex\n\$([^$]+)\$"
+
+    matches = re.findall(pattern, content, flags=re.DOTALL)
+
+    counter = 0
+    for match in matches:
+        replacement = replace_matches(match, counter, file.stem)
+        print(f" - Replacing \"%%latex\n${match}$\" with {replacement}")
+        content = content.replace(f"%%latex\n${match}$", replacement, 1)
+        counter += 1
+
+    file.write_text(content)
 
 
 @click.command()
@@ -77,13 +128,15 @@ def main(file_path: str):
             # Copy all figures to the media directory
             png_files = Path(f"raws/tmp/{file_name}_files").glob("*.png")
             for f in png_files:
-                shutil.copy2(f, Path("web/media"))
+                shutil.copy(f, Path("web/media"))
 
             # Delete the temporary files
             shutil.rmtree("raws/tmp")
 
             # Update the media links
             retarget_media_files(Path(f"web/articles/{file_name}.md"))
+
+        latex_to_image(Path(f"web/articles/{file_name}.md"))
 
 
 if __name__ == "__main__":
