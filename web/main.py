@@ -1,5 +1,5 @@
 import datetime
-from nicegui import ui
+from nicegui import app, ui
 from pathlib import Path
 
 
@@ -86,4 +86,6 @@ def view_article(date: str):
 
 
 if __name__ in {"__main__", "__mp_main__"}:
+    app.add_media_files("/media", "web/media")
+    app.add_static_files("/static", "web/static")
     ui.run(title=__title__)
