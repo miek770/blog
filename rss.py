@@ -44,6 +44,7 @@ def main():
         fe.link(href=id)
         fe.description(description)
         fe.author({"name": config["Site"]["author"], "email": config["Site"]["email"]})
+        fe.content(f"See full article here: {id}")
 
         date = datetime.strptime(pub_date, "%Y-%m-%d")
         timezone = pytz.timezone(config["Site"]["timezone"])
