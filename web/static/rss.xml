@@ -8,12 +8,12 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Jul 2023 22:48:04 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jul 2023 22:50:22 +0000</lastBuildDate>
     <item>
       <title>How I made this blog</title>
       <link>https://codecurrents.blog/article/2023-07-06</link>
       <description>A guide on how I built this blog using Python and Nicegui.</description>
-      <content:encoded>See full article at &lt;a href="https://codecurrents.blog/article/2023-07-06"&gt;https://codecurrents.blog/article/2023-07-06&lt;/a&gt;</content:encoded>
+      <content:encoded>A guide on how I built this blog using Python and Nicegui.&lt;br /&gt;&lt;br /&gt;See full article at &lt;a href="https://codecurrents.blog/article/2023-07-06"&gt;https://codecurrents.blog/article/2023-07-06&lt;/a&gt;</content:encoded>
       <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
       <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-06</guid>
       <pubDate>Thu, 06 Jul 2023 00:00:00 -0400</pubDate>
@@ -22,7 +22,7 @@
       <title>Symmetrical components</title>
       <link>https://codecurrents.blog/article/2023-07-13</link>
       <description>A tutorial on how to work with power system symmetrical components and phasors in Python.</description>
-      <content:encoded>See full article at &lt;a href="https://codecurrents.blog/article/2023-07-13"&gt;https://codecurrents.blog/article/2023-07-13&lt;/a&gt;</content:encoded>
+      <content:encoded>A tutorial on how to work with power system symmetrical components and phasors in Python.&lt;br /&gt;&lt;br /&gt;See full article at &lt;a href="https://codecurrents.blog/article/2023-07-13"&gt;https://codecurrents.blog/article/2023-07-13&lt;/a&gt;</content:encoded>
       <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
       <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-13</guid>
       <pubDate>Thu, 13 Jul 2023 00:00:00 -0400</pubDate>
