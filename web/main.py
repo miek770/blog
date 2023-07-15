@@ -42,7 +42,7 @@ def briefs():
                     ui.label(f"Posted on {brief_path.stem}")
 
 
-def header():
+def header(date: str = None):
     with ui.header().style("background-color: #F0F0F0").classes(
         "items-center place-content-center"
     ):
@@ -50,6 +50,11 @@ def header():
         ui.link("Home", "/")
         ui.link("About", "/about")
         ui.link("RSS", "/feed")
+        if date is not None:
+            ui.link(
+                "Source",
+                f"{config['Site']['source']}/{config['Path']['articles']}/{date}.md",
+            )
 
 
 def copyright():
@@ -84,7 +89,7 @@ def about():
 
 @ui.page("/article/{date}")
 def view_article(date: str):
-    header()
+    header(date)
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         for article_path in articles_list:
             if date in article_path.stem:
@@ -92,6 +97,11 @@ def view_article(date: str):
                     ui.markdown(article_path.read_text())
                 elif article_path.suffix == ".html":
                     ui.html(article_path.read_text())
+                ui.html("<hr />")
+                ui.link(
+                    f"See source on {config['Site']['source_host']}",
+                    f"{config['Site']['source']}/{config['Path']['articles']}/{date}.md",
+                    )
                 break
         footer()
         copyright()
