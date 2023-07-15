@@ -1,15 +1,25 @@
 import datetime
 from nicegui import app, ui
 from pathlib import Path
+import configparser
 
 
-__title__ = "Code & Currents - Michel Lavoie's blog"
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+__title__ = config["Site"]["title"] + " - " + config["Site"]["subtitle"]
+
+__copyright__ = f"Unauthorized use and/or duplication of this material without \
+express and written permission from this blog's author and/or owner is strictly \
+prohibited. Excerpts and links may be used, provided that full and clear credit \
+is given to {config['Site']['author']} and {config['Site']['title']} with \
+appropriate and specific direction to the original content."
 
 
-briefs_dir = Path("web/briefs")
+briefs_dir = Path(config["Path"]["briefs"])
 briefs_list = sorted(list(briefs_dir.glob("*")), reverse=True)
 
-articles_dir = Path("web/articles")
+articles_dir = Path(config["Path"]["articles"])
 articles_list = sorted(list(articles_dir.glob("*")), reverse=True)
 
 body_classes = "mx-auto sm:max-w-full"
@@ -39,20 +49,15 @@ def header():
         ui.label(__title__).style("color: #111111")
         ui.link("Home", "/")
         ui.link("About", "/about")
+        ui.link("RSS", "/feed")
 
 
 def copyright():
     year = datetime.datetime.now().year
-    with ui.expansion(f"Copyright © {year} Michel Lavoie. All rights reserved.").style(
-        "color: #555555"
-    ):
-        ui.label(
-            "Unauthorized use and/or duplication of this material without express and \
-written permission from this blog's author and/or owner is strictly prohibited. \
-Excerpts and links may be used, provided that full and clear credit is given to \
-Michel Lavoie and [Your Blog's Name] with appropriate and specific direction to the \
-original content."
-        )
+    with ui.expansion(
+        f"Copyright © {year} {config['Site']['author']}. All rights reserved."
+    ).style("color: #555555"):
+        ui.label(__copyright__)
 
 
 @ui.page("/")
@@ -86,6 +91,6 @@ def view_article(date: str):
 
 
 if __name__ in {"__main__", "__mp_main__"}:
-    app.add_media_files("/media", "web/media")
-    app.add_static_files("/static", "web/static")
+    app.add_media_files("/media", config["Path"]["media"])
+    app.add_static_files("/static", config["Path"]["static"])
     ui.run(title=__title__)

@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess as sub
 import platform
 import fileinput
-import sys
+import configparser
 
 
 def retarget_media_files(path: Path):
@@ -13,22 +13,22 @@ def retarget_media_files(path: Path):
 
     # Open the file in place for editing
     with fileinput.FileInput(path, inplace=True) as file:
-
         # Iterate over each line in the file
         for line in file:
-
             # Replace the target string with the desired replacement
-            updated_line = line.replace(f"![png]({path.stem}_files/", "![png](../media/")
+            updated_line = line.replace(
+                f"![png]({path.stem}_files/", "![png](../media/"
+            )
 
             # Print the modified line to the file
-            print(updated_line, end='')
+            print(updated_line, end="")
 
 
 def get_first_400_characters(file: Path) -> str:
     content = file.read_text()
 
     # Remove hyperlinks
-    content = re.sub(r'\[(.*?)\]\((.*?)\)', r'\1', content)
+    content = re.sub(r"\[(.*?)\]\((.*?)\)", r"\1", content)
 
     # Get the first 400 characters (approximately)
     first_400_characters = content[:400]
@@ -36,33 +36,37 @@ def get_first_400_characters(file: Path) -> str:
     return first_400_characters
 
 
-def replace_matches(match: re.match, counter: int, filename: str) -> str:
+def replace_matches(
+    match: re.match, counter: int, filename: str, config: configparser.ConfigParser
+) -> str:
     tex = match.strip("%%latex\n$")
-    print(f" - LaTeX string \"{tex}\" to be replaced with an image.")
+    print(f' - LaTeX string "{tex}" to be replaced with an image.')
 
     # Image filename
     img_filename = f"{filename}_latex_{counter:02d}"
 
     # Generate the image of the LaTeX expression
-    sub.run([
-        "bash",
-        "./tex2png.sh",
-        tex,
-        img_filename,
-    ])
+    sub.run(
+        [
+            "bash",
+            "./tex2png.sh",
+            tex,
+            img_filename,
+        ]
+    )
 
     # Move the image to the correct location
-    Path(f"web/media/{img_filename}.png").unlink(missing_ok=True)
-    shutil.move(f"tmp/{img_filename}.png", "web/media")
+    Path(f"{config['Path']['media']}/{img_filename}.png").unlink(missing_ok=True)
+    shutil.move(f"tmp/{img_filename}.png", config["Path"]["media"])
 
     # Change the LaTeX with the image reference for the Markdown file
     replacement = f"\n\n\n![png](../media/{img_filename}.png)\n\n\n"
 
-    print(f" - LaTeX string \"{tex}\" replaced with \"{replacement}\"")
+    print(f' - LaTeX string "{tex}" replaced with "{replacement}"')
     return replacement
 
 
-def latex_to_image(file: Path):
+def latex_to_image(file: Path, config: configparser.ConfigParser):
     print(f" - Converting LaTeX to images for file {file}")
 
     content = file.read_text()
@@ -73,8 +77,8 @@ def latex_to_image(file: Path):
 
     counter = 0
     for match in matches:
-        replacement = replace_matches(match, counter, file.stem)
-        print(f" - Replacing \"%%latex\n${match}$\" with {replacement}")
+        replacement = replace_matches(match, counter, file.stem, config)
+        print(f' - Replacing "%%latex\n${match}$" with {replacement}')
         content = content.replace(f"%%latex\n${match}$", replacement, 1)
         counter += 1
 
@@ -86,57 +90,68 @@ def latex_to_image(file: Path):
 def main(file_path: str):
     file = Path(file_path)
     if file.is_file():
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+
         file_name = file.stem
 
         if file.suffix == ".md":
             # Copy the article as is
-            shutil.copy(file_path, f"web/articles/{file_name}.md")
+            shutil.copy(file_path, f"{config['Path']['articles']}/{file_name}.md")
 
             # Write the brief
-            with open(f"web/briefs/{file_name}.md", "w", encoding='utf-8') as f:
+            with open(
+                f"{config['Path']['briefs']}/{file_name}.md", "w", encoding="utf-8"
+            ) as f:
                 f.write(get_first_400_characters(file))
                 f.write("...")
 
         elif file.suffix == ".ipynb":
-            if platform.system() == 'Windows':
+            if platform.system() == "Windows":
                 python = "py"
-            elif platform.system() == 'Linux':
+            elif platform.system() == "Linux":
                 python = "python3"
 
             # Retarget file to the temporary (Markdown) one
-            file = Path(f"raws/tmp/{file_name}.md")
+            file = Path(f"{config['Path']['raws']}/tmp/{file_name}.md")
 
             # Prepare the temporary markdown file
-            sub.run([
-                python,
-                "-m",
-                "nbconvert",
-                "--to",
-                "markdown",
-                "--output-dir=raws/tmp",
-                f"raws/{file_name}.ipynb",
-                ])
+            sub.run(
+                [
+                    python,
+                    "-m",
+                    "nbconvert",
+                    "--to",
+                    "markdown",
+                    f"--output-dir={config['Path']['raws']}/tmp",
+                    f"{config['Path']['raws']}/{file_name}.ipynb",
+                ]
+            )
 
             # Copy the article as is
-            shutil.copy(file, f"web/articles/{file_name}.md")
+            shutil.copy(file, f"{config['Path']['articles']}/{file_name}.md")
 
             # Write the brief
-            with open(f"web/briefs/{file_name}.md", "w", encoding='utf-8') as f:
+            with open(
+                f"{config['Path']['briefs']}/{file_name}.md", "w", encoding="utf-8"
+            ) as f:
                 f.write(get_first_400_characters(file))
                 f.write("...")
 
             # Copy all figures to the media directory
-            png_files = Path(f"raws/tmp/{file_name}_files").glob("*.png")
+            png_files = Path(f"{config['Path']['raws']}/tmp/{file_name}_files").glob(
+                "*.png"
+            )
             for f in png_files:
-                shutil.copy(f, Path("web/media"))
+                shutil.copy(f, Path(config["Path"]["media"]))
 
             # Delete the temporary files
-            shutil.rmtree("raws/tmp")
+            shutil.rmtree(f"{config['Path']['raws']}/tmp")
 
             # Update the media links
-            retarget_media_files(Path(f"web/articles/{file_name}.md"))
+            retarget_media_files(Path(f"{config['Path']['articles']}/{file_name}.md"))
 
-        latex_to_image(Path(f"web/articles/{file_name}.md"))
+        latex_to_image(Path(f"{config['Path']['articles']}/{file_name}.md"), config)
 
 
 if __name__ == "__main__":
