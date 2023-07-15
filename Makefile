@@ -21,10 +21,12 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 	$(PYTHON) ./manage.py --file_path "$<"
 
 # Install dependencies
+# I always want the latest version of each library, but I want to pin my dependencies
+# to get warnings from GitHub if there's a security issue.
 deps:
 	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -U click feedgen logzero nbconvert nicegui pathlib pipx
-	$(PYTHON) -m pipx install black
+	$(PYTHON) -m pip install -U click feedgen nbconvert nicegui pathlib
+	$(PYTHON) -m pip freeze | grep -E "click|feedgen|nbconvert|nicegui|pathlib" > requirements.txt
 
 # Launch the website
 serve:
