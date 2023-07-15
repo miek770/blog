@@ -12,6 +12,8 @@ endif
 # Define the publish target
 publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 	@echo "Publishing completed."
+	$(PYTHON) ./rss.py
+	@echo "RSS feed update completed."
 
 # Pattern rule to specify how to build each file
 %: $(RAW_DIR)/%
@@ -21,7 +23,7 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 # Install dependencies
 deps:
 	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -U click logzero nbconvert nicegui pathlib pipx
+	$(PYTHON) -m pip install -U click feedgen logzero nbconvert nicegui pathlib pipx
 	$(PYTHON) -m pipx install black
 
 # Launch the website
