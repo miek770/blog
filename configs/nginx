@@ -13,8 +13,12 @@ server {
     }
 
     location /feed {
-        alias /home/michel/blog/rss.xml;
+        alias /home/michel/blog/web/static/rss.xml;
         default_type application/rss+xml;
+    }
+
+    location /robots.txt {
+        alias /home/michel/blog/web/static/robots.txt;
     }
     
     location / {

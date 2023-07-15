@@ -97,6 +97,24 @@ def view_article(date: str):
         copyright()
 
 
+# Only serves during debugging / testing
+# Nginx serves this file in production
+@ui.page("/feed")
+def rss_feed():
+    with open(f"{config['Path']['static']}/rss.xml", "r") as file:
+        for line in file:
+            ui.label(line)
+
+
+# Only serves during debugging / testing
+# Nginx serves this file in production
+@ui.page("/robots.txt")
+def rss_feed():
+    with open(f"{config['Path']['static']}/robots.txt", "r") as file:
+        for line in file:
+            ui.label(line)
+
+
 if __name__ in {"__main__", "__mp_main__"}:
     app.add_media_files("/media", config["Path"]["media"])
     app.add_static_files("/static", config["Path"]["static"])

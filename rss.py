@@ -50,7 +50,7 @@ def main():
         date_with_timezone = timezone.localize(date)
         fe.pubDate(date_with_timezone)
 
-    fg.rss_file("rss.xml", pretty=True)
+    fg.rss_file(f"{config['Path']['static']}/rss.xml", pretty=True)
 
 
 if __name__ == "__main__":
