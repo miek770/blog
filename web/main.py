@@ -60,11 +60,16 @@ def copyright():
         ui.label(__copyright__)
 
 
+def footer():
+    ui.markdown(Path(f"{config['Path']['static']}/contact.md").read_text())
+
+
 @ui.page("/")
 def home():
     header()
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         briefs()
+        footer()
         copyright()
 
 
@@ -72,7 +77,8 @@ def home():
 def about():
     header()
     with ui.grid(columns=1).classes(body_classes).style(body_style):
-        ui.markdown(Path("web/about.md").read_text())
+        ui.markdown(Path(f"{config['Path']['static']}/about.md").read_text())
+        footer()
         copyright()
 
 
@@ -87,6 +93,7 @@ def view_article(date: str):
                 elif article_path.suffix == ".html":
                     ui.html(article_path.read_text())
                 break
+        footer()
         copyright()
 
 
