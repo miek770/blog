@@ -68,6 +68,9 @@ def copyright():
 def footer():
     ui.markdown(Path(f"{config['Path']['static']}/contact.md").read_text())
 
+    credit = Path(f'{config["Path"]["static"]}/credit.md').read_text()
+    ui.markdown(f"<small>{credit}</small>")
+
 
 @ui.page("/")
 def home():
