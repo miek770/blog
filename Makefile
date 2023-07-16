@@ -1,13 +1,6 @@
 RAW_DIR := raws
-
-# Determine the operating system
-ifeq ($(OS),Windows_NT)
-	# Windows
-	PYTHON := py
-else
-	# Linux
-	PYTHON := python3
-endif
+ARTICLES_DIR := web/articles
+PYTHON := python3
 
 # Define the publish target
 publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
@@ -31,3 +24,10 @@ deps:
 # Launch the website
 serve:
 	$(PYTHON) ./web/main.py
+
+# Proofreading using ChatGPT
+review:
+	@echo "Running command on the latest article"
+	@$(PYTHON) ./review.py $(ARTICLES_DIR)/$(shell ls -1 -t $(ARTICLES_DIR) | tail -1)
+
+.PHONY: publish deps serve review
