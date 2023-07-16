@@ -10,7 +10,7 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 
 # Pattern rule to specify how to build each file
 %: $(RAW_DIR)/%
-	@echo "Processing $<"
+	@echo "Processing $<..."Running command on
 	$(PYTHON) ./manage.py --file_path "$<"
 
 # Install dependencies
@@ -18,7 +18,7 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 # to get warnings from GitHub if there's a security issue.
 deps:
 	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -U click feedgen nbconvert nicegui pathlib
+	$(PYTHON) -m pip install -U click feedgen nbconvert nicegui openai pathlib
 	$(PYTHON) -m pip freeze | grep -E "click|feedgen|nbconvert|nicegui|pathlib" > requirements.txt
 
 # Launch the website
@@ -27,7 +27,7 @@ serve:
 
 # Proofreading using ChatGPT
 review:
-	@echo "Running command on the latest article"
+	@echo "Proofreading the latest article..."
 	@$(PYTHON) ./review.py $(ARTICLES_DIR)/$(shell ls -1 -t $(ARTICLES_DIR) | tail -1)
 
 .PHONY: publish deps serve review
