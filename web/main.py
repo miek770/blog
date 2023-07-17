@@ -93,6 +93,17 @@ def about():
 @ui.page("/article/{date}")
 def view_article(date: str):
     header(date)
+
+    # Custom formatting
+    ui.add_head_html("""
+        <style>
+            .nicegui-markdown pre {
+                background-color: #f5f5f5;
+                overflow: scroll;
+            }
+        </style>
+    """)
+
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         for article_path in articles_list:
             if date in article_path.stem:
