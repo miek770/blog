@@ -20,7 +20,7 @@ server {
     location /robots.txt {
         alias /home/michel/blog/web/static/robots.txt;
     }
-    
+
     location / {
         include proxy_params;
         proxy_http_version 1.1;

@@ -95,14 +95,16 @@ def view_article(date: str):
     header(date)
 
     # Custom formatting
-    ui.add_head_html("""
+    ui.add_head_html(
+        """
         <style>
             .nicegui-markdown pre {
                 background-color: #f5f5f5;
                 overflow: scroll;
             }
         </style>
-    """)
+    """
+    )
 
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         for article_path in articles_list:
@@ -115,7 +117,7 @@ def view_article(date: str):
                 ui.link(
                     f"See source on {config['Site']['source_host']}",
                     f"{config['Site']['source']}/{config['Path']['articles']}/{date}.md",
-                    )
+                )
                 break
         footer()
         copyright()
@@ -145,4 +147,4 @@ if __name__ in {"__main__", "__mp_main__"}:
     ui.run(
         title=__title__,
         favicon="🐍",
-        )
+    )
