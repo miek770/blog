@@ -142,4 +142,7 @@ def rss_feed():
 if __name__ in {"__main__", "__mp_main__"}:
     app.add_media_files("/media", config["Path"]["media"])
     app.add_static_files("/static", config["Path"]["static"])
-    ui.run(title=__title__)
+    ui.run(
+        title=__title__,
+        favicon="🐍",
+        )
