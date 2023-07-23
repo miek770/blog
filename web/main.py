@@ -43,6 +43,9 @@ def briefs():
 
 
 def header(date: str = None):
+    # Google Search Console - Domain ownership verification
+    ui.add_head_html('<meta name="google-site-verification" content="xi7cLV-1mZiR8aMFkTLu4uWV8KdkK3D3lZURe_Luyy4" />')
+
     with ui.header().style("background-color: #F0F0F0").classes(
         "items-center place-content-center"
     ):
