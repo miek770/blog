@@ -161,3 +161,4 @@ cython_debug/
 
 # OpenAI API key
 openai_api_key.txt
+tmp

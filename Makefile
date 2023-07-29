@@ -33,6 +33,6 @@ serve:
 # Proofreading using ChatGPT
 review:
 	@echo "Proofreading the latest article..."
-	@$(PYTHON) ./review.py $(ARTICLES_DIR)/$(shell ls -1 -t $(ARTICLES_DIR) | tail -1)
+	$(PYTHON) ./review.py $(ARTICLES_DIR)/$(shell ls -1 $(ARTICLES_DIR) | tail -1)
 
 .PHONY: publish deps serve review
