@@ -22,6 +22,7 @@ briefs_list = sorted(list(briefs_dir.glob("*")), reverse=True)
 articles_dir = Path(config["Path"]["articles"])
 articles_list = sorted(list(articles_dir.glob("*")), reverse=True)
 
+media_dir = Path(config["Path"]["media"])
 body_classes = "mx-auto sm:max-w-full"
 body_style = "max-width: 768px;"
 
@@ -35,6 +36,9 @@ def briefs():
                 "click",
                 lambda x=x: ui.open(f"/article/{x.stem}"),
             ):
+                if Path(media_dir, x.stem + ".png").is_file():
+                    with ui.row().style("width: 100%").classes("place-content-center"):
+                        ui.image(f"media/{x.stem}.png")
                 with ui.row():
                     ui.markdown(brief_path.read_text()).style("color: #555555")
                 with ui.row().style("width: 100%").classes("flex justify-end"):
@@ -44,7 +48,9 @@ def briefs():
 
 def header(date: str = None):
     # Google Search Console - Domain ownership verification
-    ui.add_head_html('<meta name="google-site-verification" content="xi7cLV-1mZiR8aMFkTLu4uWV8KdkK3D3lZURe_Luyy4" />')
+    ui.add_head_html(
+        '<meta name="google-site-verification" content="xi7cLV-1mZiR8aMFkTLu4uWV8KdkK3D3lZURe_Luyy4" />'
+    )
 
     with ui.header().style("background-color: #F0F0F0").classes(
         "items-center place-content-center"
