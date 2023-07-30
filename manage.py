@@ -104,13 +104,16 @@ def main(file_path: str):
                 f"{config['Path']['briefs']}/{file_name}.md", "w", encoding="utf-8"
             ) as f:
                 f.write(get_first_400_characters(file))
-                f.write("...")
+                f.write("...\n")
 
         elif file.suffix == ".ipynb":
             if platform.system() == "Windows":
                 python = "py"
             elif platform.system() == "Linux":
                 python = "python3"
+
+            # Run black on the notebook
+            sub.run([python, "-m", "black", file])
 
             # Retarget file to the temporary (Markdown) one
             file = Path(f"{config['Path']['raws']}/tmp/{file_name}.md")
@@ -136,7 +139,10 @@ def main(file_path: str):
                 f"{config['Path']['briefs']}/{file_name}.md", "w", encoding="utf-8"
             ) as f:
                 f.write(get_first_400_characters(file))
-                f.write("...")
+                f.write("...\n")
+
+            # Erase the previously generated figures
+            remove_files_with_pattern(config["Path"]["media"], f"{file_name}_*.png")
 
             # Copy all figures to the media directory
             png_files = Path(f"{config['Path']['raws']}/tmp/{file_name}_files").glob(
@@ -152,6 +158,12 @@ def main(file_path: str):
             retarget_media_files(Path(f"{config['Path']['articles']}/{file_name}.md"))
 
         latex_to_image(Path(f"{config['Path']['articles']}/{file_name}.md"), config)
+
+
+def remove_files_with_pattern(directory_path, pattern):
+    directory = Path(directory_path)
+    for file in directory.glob(pattern):
+        file.unlink()
 
 
 if __name__ == "__main__":
