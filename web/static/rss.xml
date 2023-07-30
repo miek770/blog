@@ -19,15 +19,6 @@
       <pubDate>Sun, 30 Jul 2023 00:00:00 -0400</pubDate>
     </item>
     <item>
-      <title>Filling the gaps</title>
-      <link>https://codecurrents.blog/article/2023-07-28</link>
-      <description>A practical guide for interpolation methods, from linear interpolation to linear regression, applied to design problems in Python.</description>
-      <content:encoded>A practical guide for interpolation methods, from linear interpolation to linear regression, applied to design problems in Python.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-07-28"&gt;https://codecurrents.blog/article/2023-07-28&lt;/a&gt;</content:encoded>
-      <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
-      <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-28</guid>
-      <pubDate>Fri, 28 Jul 2023 00:00:00 -0400</pubDate>
-    </item>
-    <item>
       <title>How I made this blog</title>
       <link>https://codecurrents.blog/article/2023-07-06</link>
       <description>A guide on how I built this blog using Python and Nicegui.</description>
