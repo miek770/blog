@@ -8,7 +8,16 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 30 Jul 2023 18:27:52 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 Jul 2023 19:12:49 +0000</lastBuildDate>
+    <item>
+      <title>Filling the gaps</title>
+      <link>https://codecurrents.blog/article/2023-07-30</link>
+      <description>A practical guide for interpolation methods, from linear interpolation to linear regression, applied to design problems in Python.</description>
+      <content:encoded>A practical guide for interpolation methods, from linear interpolation to linear regression, applied to design problems in Python.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-07-30"&gt;https://codecurrents.blog/article/2023-07-30&lt;/a&gt;</content:encoded>
+      <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-30</guid>
+      <pubDate>Sun, 30 Jul 2023 00:00:00 -0400</pubDate>
+    </item>
     <item>
       <title>Filling the gaps</title>
       <link>https://codecurrents.blog/article/2023-07-28</link>
