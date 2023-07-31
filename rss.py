@@ -22,7 +22,7 @@ def main():
     fg.language("en")
 
     briefs = Path(config["Path"]["briefs"]).glob("*.md")
-    for brief in briefs:
+    for brief in sorted(briefs):
         pub_date = brief.stem
         with open(brief, "r") as file:
             for line in file:
