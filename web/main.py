@@ -27,6 +27,57 @@ body_classes = "mx-auto sm:max-w-full"
 body_style = "max-width: 768px;"
 
 
+@ui.page("/")
+def home():
+    header()
+    with ui.grid(columns=1).classes(body_classes).style(body_style):
+        briefs()
+        footer()
+        copyright()
+
+
+@ui.page("/about")
+def about():
+    header()
+    with ui.grid(columns=1).classes(body_classes).style(body_style):
+        ui.markdown(Path(f"{config['Path']['static']}/about.md").read_text())
+        footer()
+        copyright()
+
+
+@ui.page("/article/{date}")
+def view_article(date: str):
+    header(date)
+
+    # Custom formatting
+    ui.add_head_html(
+        """
+        <style>
+            .nicegui-markdown pre {
+                background-color: #f5f5f5;
+                overflow: scroll;
+            }
+        </style>
+    """
+    )
+
+    with ui.grid(columns=1).classes(body_classes).style(body_style):
+        for article_path in articles_list:
+            if date in article_path.stem:
+                if article_path.suffix == ".md":
+                    ui.markdown(article_path.read_text())
+                elif article_path.suffix == ".html":
+                    ui.html(article_path.read_text())
+                ui.html("<hr />")
+                ui.link(
+                    f"See source on {config['Site']['source_host']}",
+                    f"{config['Site']['source']}/{config['Path']['articles']}/{date}.md",
+                )
+                break
+        footer()
+        copyright()
+
+
 def briefs():
     for brief_path in briefs_list:
         if brief_path.is_file():
@@ -79,57 +130,6 @@ def footer():
 
     credit = Path(f'{config["Path"]["static"]}/credit.md').read_text()
     ui.markdown(f"<small>{credit}</small>")
-
-
-@ui.page("/")
-def home():
-    header()
-    with ui.grid(columns=1).classes(body_classes).style(body_style):
-        briefs()
-        footer()
-        copyright()
-
-
-@ui.page("/about")
-def about():
-    header()
-    with ui.grid(columns=1).classes(body_classes).style(body_style):
-        ui.markdown(Path(f"{config['Path']['static']}/about.md").read_text())
-        footer()
-        copyright()
-
-
-@ui.page("/article/{date}")
-def view_article(date: str):
-    header(date)
-
-    # Custom formatting
-    ui.add_head_html(
-        """
-        <style>
-            .nicegui-markdown pre {
-                background-color: #f5f5f5;
-                overflow: scroll;
-            }
-        </style>
-    """
-    )
-
-    with ui.grid(columns=1).classes(body_classes).style(body_style):
-        for article_path in articles_list:
-            if date in article_path.stem:
-                if article_path.suffix == ".md":
-                    ui.markdown(article_path.read_text())
-                elif article_path.suffix == ".html":
-                    ui.html(article_path.read_text())
-                ui.html("<hr />")
-                ui.link(
-                    f"See source on {config['Site']['source_host']}",
-                    f"{config['Site']['source']}/{config['Path']['articles']}/{date}.md",
-                )
-                break
-        footer()
-        copyright()
 
 
 # Only serves during debugging / testing
