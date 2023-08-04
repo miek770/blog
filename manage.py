@@ -91,18 +91,11 @@ def remove_files_with_pattern(directory_path, pattern):
 
 def retarget_media_files(path: Path):
     print(f" - Retargetting media files for {path}")
-
-    # Open the file in place for editing
     with fileinput.FileInput(path, inplace=True) as file:
-        # Iterate over each line in the file
         for line in file:
-            # Replace the target string with the desired replacement
             updated_line = line.replace(
                 f"![png]({path.stem}_files/", "![png](../media/"
             )
-
-            # Print the modified line to the file
-            print(updated_line, end="")
 
 
 def get_first_400_characters(file: Path) -> str:
