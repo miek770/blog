@@ -2,6 +2,7 @@ import datetime
 from nicegui import app, ui
 from pathlib import Path
 import configparser
+import dataset
 
 
 config = configparser.ConfigParser()
@@ -29,6 +30,7 @@ body_style = "max-width: 768px;"
 
 @ui.page("/")
 def home():
+    log_visit("/")
     header()
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         briefs()
@@ -38,6 +40,7 @@ def home():
 
 @ui.page("/about")
 def about():
+    log_visit("/about")
     header()
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         ui.markdown(Path(f"{config['Path']['static']}/about.md").read_text())
@@ -47,6 +50,7 @@ def about():
 
 @ui.page("/article/{date}")
 def view_article(date: str):
+    log_visit(f"/article/{date}")
     header(date)
 
     # Custom formatting
@@ -65,7 +69,7 @@ def view_article(date: str):
         for article_path in articles_list:
             if date in article_path.stem:
                 if article_path.suffix == ".md":
-                    ui.markdown(article_path.read_text())
+                    render_markdown_article(article_path)
                 elif article_path.suffix == ".html":
                     ui.html(article_path.read_text())
                 ui.html("<hr />")
@@ -76,6 +80,48 @@ def view_article(date: str):
                 break
         footer()
         copyright()
+
+
+def render_markdown_article(path: Path):
+    if path.is_file():
+
+        def get_target(line: str) -> str:
+            return line.split("# ")[1].replace(" ", "_").replace("'", "_").lower()[:-1]
+
+        # Find the link targets for the table of content
+        targets = []
+        in_code_block = False
+        for line in path.open():
+            if line.startswith("```"):
+                in_code_block = not in_code_block
+            if not in_code_block and line[0] == "#":
+                target = get_target(line)
+                targets.append((target, line))
+
+        # Generate the table of content
+        toc = []
+        toc.append("## Content")
+        for target, line in targets:
+            title = line.split("# ")[1]
+            link = f"[{title}](#{target})"
+
+            # The levels start at zero for simplicity
+            level = len(line.split("# ")[0])
+            toc.append("   " * (level) + " - " + link)
+        ui.markdown("\n".join(toc))
+
+        # Print the article, including the link targets
+        md = []
+        in_code_block = False
+        for line in path.open():
+            if line.startswith("```"):
+                in_code_block = not in_code_block
+            if not in_code_block and line[0] == "#":
+                ui.markdown("".join(md) + f'<a name="{get_target(line)}" />')
+                md = []
+            md.append(line)
+        else:
+            ui.markdown("".join(md))
 
 
 def briefs():
@@ -103,6 +149,17 @@ def header(date: str = None):
         '<meta name="google-site-verification" content="xi7cLV-1mZiR8aMFkTLu4uWV8KdkK3D3lZURe_Luyy4" />'
     )
 
+    # Offset anchors - Could be obsolete with:
+    # https://github.com/zauberzeug/nicegui/pull/1329
+    ui.add_head_html(
+        """<style type="text/css">
+            html {
+                scroll-padding-top: 70px;
+            }
+        </style>
+        """
+    )
+
     with ui.header().style("background-color: #F0F0F0").classes(
         "items-center place-content-center"
     ):
@@ -115,6 +172,7 @@ def header(date: str = None):
                 "Source",
                 f"{config['Site']['source']}/{config['Path']['articles']}/{date}.md",
             )
+            ui.link("Back to top", "#")
 
 
 def copyright():
@@ -148,6 +206,16 @@ def rss_feed():
     with open(f"{config['Path']['static']}/robots.txt", "r") as file:
         for line in file:
             ui.label(line)
+
+
+def log_visit(path: str):
+    with dataset.connect(config["Db"]["url"]) as db:
+        db["visits"].insert(
+            {
+                "page": path,
+                "datetime": datetime.datetime.now(),
+            }
+        )
 
 
 if __name__ in {"__main__", "__mp_main__"}:
