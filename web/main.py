@@ -28,10 +28,8 @@ media_dir = Path(config["Path"]["media"])
 body_classes = "mx-auto sm:max-w-full"
 body_style = "max-width: 768px;"
 
-known_bots = {
-    "GoogleBot",
-    "Bingbot",
-}
+with open(Path("web_crawlers.txt")) as file:
+    known_bots = {line.strip() for line in file.readlines()}
 
 
 @ui.page("/")

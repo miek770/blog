@@ -1,0 +1,12 @@
+GoogleBot
+Bingbot
+Yahoo Slurp
+Baiduspider
+YandexBot
+DuckDuckBot
+Facebook Bot
+Twitterbot
+LinkedInBot
+Pinterestbot
+AhrefsBot
+MJ12bot
