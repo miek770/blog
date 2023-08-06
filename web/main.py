@@ -1,8 +1,9 @@
 import datetime
-from nicegui import app, ui
+from nicegui import app, Client, ui
 from pathlib import Path
 import configparser
 import dataset
+from fastapi import Request
 
 
 config = configparser.ConfigParser()
@@ -27,10 +28,15 @@ media_dir = Path(config["Path"]["media"])
 body_classes = "mx-auto sm:max-w-full"
 body_style = "max-width: 768px;"
 
+known_bots = {
+    "GoogleBot",
+    "Bingbot",
+}
+
 
 @ui.page("/")
-def home():
-    log_visit("/")
+def home(request: Request, client: Client):
+    log_visit("/", request, client)
     header()
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         briefs()
@@ -39,8 +45,8 @@ def home():
 
 
 @ui.page("/about")
-def about():
-    log_visit("/about")
+def about(request: Request, client: Client):
+    log_visit("/about", request, client)
     header()
     with ui.grid(columns=1).classes(body_classes).style(body_style):
         ui.markdown(Path(f"{config['Path']['static']}/about.md").read_text())
@@ -49,8 +55,8 @@ def about():
 
 
 @ui.page("/article/{date}")
-def view_article(date: str):
-    log_visit(f"/article/{date}")
+def view_article(date: str, request: Request, client: Client):
+    log_visit(f"/article/{date}", request, client)
     header(date)
 
     # Custom formatting
@@ -208,14 +214,27 @@ def rss_feed():
             ui.label(line)
 
 
-def log_visit(path: str):
-    with dataset.connect(config["Db"]["url"]) as db:
-        db["visits"].insert(
-            {
-                "page": path,
-                "datetime": datetime.datetime.now(),
-            }
-        )
+def log_visit(path: str, request: Request, client: Client):
+    user_agent = request.headers.get("user-agent", "")
+
+    if not any(bot in user_agent for bot in known_bots):
+        with dataset.connect(config["Db"]["url"]) as db:
+            db["visits"].insert(
+                {
+                    "page": path,
+                    "datetime": datetime.datetime.now(),
+                    "uuid": client.id,
+                }
+            )
+    else:
+        with dataset.connect(config["Db"]["url"]) as db:
+            db["scans"].insert(
+                {
+                    "page": path,
+                    "datetime": datetime.datetime.now(),
+                    "user_agent": user_agent,
+                }
+            )
 
 
 if __name__ in {"__main__", "__mp_main__"}:
