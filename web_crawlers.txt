@@ -10,3 +10,4 @@ LinkedInBot
 Pinterestbot
 AhrefsBot
 MJ12bot
+GPTBot
