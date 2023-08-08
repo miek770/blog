@@ -28,9 +28,6 @@ media_dir = Path(config["Path"]["media"])
 body_classes = "mx-auto sm:max-w-full"
 body_style = "max-width: 768px;"
 
-with open(Path("web_crawlers.txt")) as file:
-    known_bots = {line.strip() for line in file.readlines()}
-
 
 @ui.page("/")
 def home(request: Request, client: Client):
@@ -213,26 +210,15 @@ def rss_feed():
 
 
 def log_visit(path: str, request: Request, client: Client):
-    user_agent = request.headers.get("user-agent", "")
-
-    if not any(bot in user_agent for bot in known_bots):
-        with dataset.connect(config["Db"]["url"]) as db:
-            db["visits"].insert(
-                {
-                    "page": path,
-                    "datetime": datetime.datetime.now(),
-                    "uuid": client.id,
-                }
-            )
-    else:
-        with dataset.connect(config["Db"]["url"]) as db:
-            db["scans"].insert(
-                {
-                    "page": path,
-                    "datetime": datetime.datetime.now(),
-                    "user_agent": user_agent,
-                }
-            )
+    with dataset.connect(config["Db"]["url"]) as db:
+        db["visits"].insert(
+            {
+                "page": path,
+                "datetime": datetime.datetime.now(),
+                "uuid": client.id,
+                "user_agent": request.headers.get("user-agent", ""),
+            }
+        )
 
 
 if __name__ in {"__main__", "__mp_main__"}:
