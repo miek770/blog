@@ -36,6 +36,7 @@ def main(file_path: str):
                 python = "python3"
 
             # Run black on the notebook
+            print(" - Running black on {file}")
             sub.run([python, "-m", "black", file])
 
             # Retarget file to the temporary (Markdown) one
@@ -93,8 +94,12 @@ def retarget_media_files(path: Path):
     print(f" - Retargetting media files for {path}")
     with fileinput.FileInput(path, inplace=True) as file:
         for line in file:
-            updated_line = line.replace(
-                f"![png]({path.stem}_files/", "![png](../media/"
+            print(
+                line.replace(
+                    f"![png]({path.stem}_files/",
+                    "![png](../media/",
+                ),
+                end="",
             )
 
 
