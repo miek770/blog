@@ -150,18 +150,7 @@ def header(date: str = None):
         '<meta name="google-site-verification" content="xi7cLV-1mZiR8aMFkTLu4uWV8KdkK3D3lZURe_Luyy4" />'
     )
 
-    # Offset anchors - Could be obsolete with:
-    # https://github.com/zauberzeug/nicegui/pull/1329
-    ui.add_head_html(
-        """<style type="text/css">
-            html {
-                scroll-padding-top: 70px;
-            }
-        </style>
-        """
-    )
-
-    with ui.header().style("background-color: #F0F0F0").classes(
+    with ui.header(add_scroll_padding=True).style("background-color: #F0F0F0").classes(
         "items-center place-content-center"
     ):
         ui.label(__title__).style("color: #111111")
