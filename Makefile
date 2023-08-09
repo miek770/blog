@@ -18,8 +18,8 @@ publish: $(patsubst $(RAW_DIR)/%,%,$(wildcard $(RAW_DIR)/*))
 # to get warnings from GitHub if there's a security issue.
 deps:
 	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -U black click feedgen nbconvert nicegui openai pathlib pre-commit
-	$(PYTHON) -m pip freeze | grep -E "click|feedgen|nbconvert|nicegui|pathlib" > requirements.txt
+	$(PYTHON) -m pip install -U black click feedgen nbconvert nicegui openai pathlib
+	$(PYTHON) -m pip freeze | grep -E "click|feedgen|nbconvert|nicegui|openai|pathlib" > requirements.txt
 	$(PYTHON) -m pre-commit install
 	$(PYTHON) -m pre-commit run --all-files
 
