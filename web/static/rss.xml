@@ -8,7 +8,16 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 30 Jul 2023 19:12:49 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Aug 2023 22:51:52 +0000</lastBuildDate>
+    <item>
+      <title>Cleaning up loops</title>
+      <link>https://codecurrents.blog/article/2023-08-15</link>
+      <description>A summary of how I restructured my robot's code using behavioral programming.</description>
+      <content:encoded>A summary of how I restructured my robot's code using behavioral programming.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-08-15"&gt;https://codecurrents.blog/article/2023-08-15&lt;/a&gt;</content:encoded>
+      <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2023-08-15</guid>
+      <pubDate>Tue, 15 Aug 2023 00:00:00 -0400</pubDate>
+    </item>
     <item>
       <title>Filling the gaps</title>
       <link>https://codecurrents.blog/article/2023-07-30</link>
@@ -19,13 +28,13 @@
       <pubDate>Sun, 30 Jul 2023 00:00:00 -0400</pubDate>
     </item>
     <item>
-      <title>How I made this blog</title>
-      <link>https://codecurrents.blog/article/2023-07-06</link>
-      <description>A guide on how I built this blog using Python and Nicegui.</description>
-      <content:encoded>A guide on how I built this blog using Python and Nicegui.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-07-06"&gt;https://codecurrents.blog/article/2023-07-06&lt;/a&gt;</content:encoded>
+      <title>Proofreading using ChatGPT</title>
+      <link>https://codecurrents.blog/article/2023-07-16</link>
+      <description>A guide about how I automated proofreading of my blog posts using the OpenAI API.</description>
+      <content:encoded>A guide about how I automated proofreading of my blog posts using the OpenAI API.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-07-16"&gt;https://codecurrents.blog/article/2023-07-16&lt;/a&gt;</content:encoded>
       <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
-      <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-06</guid>
-      <pubDate>Thu, 06 Jul 2023 00:00:00 -0400</pubDate>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-16</guid>
+      <pubDate>Sun, 16 Jul 2023 00:00:00 -0400</pubDate>
     </item>
     <item>
       <title>Symmetrical components</title>
@@ -37,13 +46,13 @@
       <pubDate>Thu, 13 Jul 2023 00:00:00 -0400</pubDate>
     </item>
     <item>
-      <title>Proofreading using ChatGPT</title>
-      <link>https://codecurrents.blog/article/2023-07-16</link>
-      <description>A guide about how I automated proofreading of my blog posts using the OpenAI API.</description>
-      <content:encoded>A guide about how I automated proofreading of my blog posts using the OpenAI API.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-07-16"&gt;https://codecurrents.blog/article/2023-07-16&lt;/a&gt;</content:encoded>
+      <title>How I made this blog</title>
+      <link>https://codecurrents.blog/article/2023-07-06</link>
+      <description>A guide on how I built this blog using Python and NiceGUI.</description>
+      <content:encoded>A guide on how I built this blog using Python and NiceGUI.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-07-06"&gt;https://codecurrents.blog/article/2023-07-06&lt;/a&gt;</content:encoded>
       <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
-      <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-16</guid>
-      <pubDate>Sun, 16 Jul 2023 00:00:00 -0400</pubDate>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2023-07-06</guid>
+      <pubDate>Thu, 06 Jul 2023 00:00:00 -0400</pubDate>
     </item>
   </channel>
 </rss>
