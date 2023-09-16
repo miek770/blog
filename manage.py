@@ -68,7 +68,7 @@ def main(file_path: str):
             # Erase the previously generated figures
             remove_files_with_pattern(config["Path"]["media"], f"{file_name}_*.png")
 
-            # Copy all figures to the media directory
+            # Copy all temporary figures to the media directory
             png_files = Path(f"{config['Path']['raws']}/tmp/{file_name}_files").glob(
                 "*.png"
             )
@@ -78,8 +78,20 @@ def main(file_path: str):
             # Delete the temporary files
             shutil.rmtree(f"{config['Path']['raws']}/tmp")
 
+            # Copy all non-temporary figures to the media directory
+            png_files = Path(f"{config['Path']['raws']}/media").glob(
+                f"{file_name}_*.png"
+            )
+            for f in png_files:
+                shutil.copy(f, Path(config["Path"]["media"]))
+
             # Update the media links
-            retarget_media_files(Path(f"{config['Path']['articles']}/{file_name}.md"))
+            retarget_temporary_media_files(
+                Path(f"{config['Path']['articles']}/{file_name}.md")
+            )
+            retarget_non_temporary_media_files(
+                Path(f"{config['Path']['articles']}/{file_name}.md")
+            )
 
         latex_to_image(Path(f"{config['Path']['articles']}/{file_name}.md"), config)
 
@@ -90,13 +102,26 @@ def remove_files_with_pattern(directory_path, pattern):
         file.unlink()
 
 
-def retarget_media_files(path: Path):
-    print(f" - Retargetting media files for {path}")
+def retarget_temporary_media_files(path: Path):
+    print(f" - Retargetting temporary media files for {path}")
     with fileinput.FileInput(path, inplace=True) as file:
         for line in file:
             print(
                 line.replace(
                     f"![png]({path.stem}_files/",
+                    "![png](../media/",
+                ),
+                end="",
+            )
+
+
+def retarget_non_temporary_media_files(path: Path):
+    print(f" - Retargetting non-temporary media files for {path}")
+    with fileinput.FileInput(path, inplace=True) as file:
+        for line in file:
+            print(
+                line.replace(
+                    f"![png](media/",
                     "![png](../media/",
                 ),
                 end="",
