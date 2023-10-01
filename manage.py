@@ -78,20 +78,20 @@ def main(file_path: str):
             # Delete the temporary files
             shutil.rmtree(f"{config['Path']['raws']}/tmp")
 
-            # Copy all non-temporary figures to the media directory
-            png_files = Path(f"{config['Path']['raws']}/media").glob(
-                f"{file_name}_*.png"
-            )
-            for f in png_files:
-                shutil.copy(f, Path(config["Path"]["media"]))
-
-            # Update the media links
+            # Update the temporary media links
             retarget_temporary_media_files(
                 Path(f"{config['Path']['articles']}/{file_name}.md")
             )
-            retarget_non_temporary_media_files(
-                Path(f"{config['Path']['articles']}/{file_name}.md")
-            )
+
+        # Copy all non-temporary figures to the media directory
+        png_files = Path(f"{config['Path']['raws']}/media").glob(f"{file_name}_*.png")
+        for f in png_files:
+            shutil.copy(f, Path(config["Path"]["media"]))
+
+        # Update the non-temporary media links
+        retarget_non_temporary_media_files(
+            Path(f"{config['Path']['articles']}/{file_name}.md")
+        )
 
         latex_to_image(Path(f"{config['Path']['articles']}/{file_name}.md"), config)
 
@@ -106,6 +106,7 @@ def retarget_temporary_media_files(path: Path):
     print(f" - Retargetting temporary media files for {path}")
     with fileinput.FileInput(path, inplace=True) as file:
         for line in file:
+            # Nbconvert generates images with ![png](<path>)
             print(
                 line.replace(
                     f"![png]({path.stem}_files/",
@@ -119,13 +120,27 @@ def retarget_non_temporary_media_files(path: Path):
     print(f" - Retargetting non-temporary media files for {path}")
     with fileinput.FileInput(path, inplace=True) as file:
         for line in file:
-            print(
-                line.replace(
-                    f"![png](media/",
-                    "![png](../media/",
-                ),
-                end="",
-            )
+            if "![png](" in line:
+                print(
+                    line.replace(
+                        f"![png](media/",
+                        "![png](../media/",
+                    ),
+                    end="",
+                )
+            elif "![img](" in line:
+                print(
+                    line.replace(
+                        f"![img](media/",
+                        "![img](../media/",
+                    ),
+                    end="",
+                )
+            else:
+                print(
+                    line,
+                    end="",
+                )
 
 
 def get_first_400_characters(file: Path) -> str:
