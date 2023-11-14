@@ -8,7 +8,16 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Oct 2023 17:57:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Nov 2023 03:35:11 +0000</lastBuildDate>
+    <item>
+      <title>How to Install Piwigo on Ubuntu with Nginx</title>
+      <link>https://codecurrents.blog/article/2023-11-13</link>
+      <description>A guide for the installation of Piwigo 14-RC1 - an open source photo management software - on Ubuntu Server 23.10 with Nginx.</description>
+      <content:encoded>A guide for the installation of Piwigo 14-RC1 - an open source photo management software - on Ubuntu Server 23.10 with Nginx.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-11-13"&gt;https://codecurrents.blog/article/2023-11-13&lt;/a&gt;</content:encoded>
+      <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2023-11-13</guid>
+      <pubDate>Mon, 13 Nov 2023 00:00:00 -0500</pubDate>
+    </item>
     <item>
       <title>Python in Excel</title>
       <link>https://codecurrents.blog/article/2023-10-01</link>
