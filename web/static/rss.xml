@@ -8,7 +8,16 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Nov 2023 03:35:11 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 Dec 2023 15:00:27 +0000</lastBuildDate>
+    <item>
+      <title>Building a Personal Knowledge Base with Obsidian</title>
+      <link>https://codecurrents.blog/article/2023-12-09</link>
+      <description>Why I am letting myself get addicted to this amazing and productive piece of software.</description>
+      <content:encoded>Why I am letting myself get addicted to this amazing and productive piece of software.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2023-12-09"&gt;https://codecurrents.blog/article/2023-12-09&lt;/a&gt;</content:encoded>
+      <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2023-12-09</guid>
+      <pubDate>Sat, 09 Dec 2023 00:00:00 -0500</pubDate>
+    </item>
     <item>
       <title>How to Install Piwigo on Ubuntu with Nginx</title>
       <link>https://codecurrents.blog/article/2023-11-13</link>
