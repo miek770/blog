@@ -8,6 +8,27 @@ import fileinput
 import configparser
 
 
+def has_changed_since_last_publish(file_name: str) -> bool:
+    src = "raws"
+    dst = "web/articles"
+
+    src_file_md = Path(src) / (file_name + ".md")
+    src_file_nb = Path(src) / (file_name + ".ipynb")
+    dst_file = Path(dst) / (file_name + ".md")
+    
+    # Check if the file exists in `dst`
+    if not dst_file.exists():
+        return True
+
+    # Compare modification time
+    if src_file_md.exists():
+            return src_file_md.stat().st_mtime > dst_file.stat().st_mtime
+    elif src_file_nb.exists():
+            return src_file_nb.stat().st_mtime > dst_file.stat().st_mtime
+    else:
+        raise FileNotFoundError(f"{file_name} does not exist in {src}")
+
+
 @click.command()
 @click.option("--file_path", type=str, default=None)
 def main(file_path: str):
@@ -17,6 +38,12 @@ def main(file_path: str):
         config.read("config.ini")
 
         file_name = file.stem
+
+        if not has_changed_since_last_publish(file_name):
+            print(f"Skipping {file} (article is up-to-date).")
+            return
+        else:
+            print(f"Processing {file}...")
 
         if file.suffix == ".md":
             # Copy the article as is
@@ -159,7 +186,7 @@ def replace_matches(
     match: re.match, counter: int, filename: str, config: configparser.ConfigParser
 ) -> str:
     tex = match.strip("%%latex\n$")
-    print(f' - LaTeX string "{tex}" to be replaced with an image.')
+    print(f" - LaTeX string to be replaced with an image: {tex}")
 
     # Image filename
     img_filename = f"{filename}_latex_{counter:02d}"
@@ -181,7 +208,7 @@ def replace_matches(
     # Change the LaTeX with the image reference for the Markdown file
     replacement = f"\n\n\n![png](../media/{img_filename}.png)\n\n\n"
 
-    print(f' - LaTeX string "{tex}" replaced with "{replacement}"')
+    print(f" - LaTeX string replaced with: {replacement}")
     return replacement
 
 

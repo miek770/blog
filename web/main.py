@@ -132,7 +132,7 @@ def briefs():
             x = brief_path
             with ui.card().classes("container mx-auto").on(
                 "click",
-                lambda x=x: ui.open(f"/article/{x.stem}"),
+                lambda x=x: ui.navigate.to(f"/article/{x.stem}"),
             ):
                 if Path(media_dir, x.stem + ".png").is_file():
                     with ui.row().style("width: 100%").classes("place-content-center"):
