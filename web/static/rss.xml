@@ -8,7 +8,16 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 09 Dec 2023 15:00:27 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Sep 2024 01:42:03 +0000</lastBuildDate>
+    <item>
+      <title>Managing and Sharing Notebooks</title>
+      <link>https://codecurrents.blog/article/2024-09-28</link>
+      <description>How I handle dependencies for Jupyter notebooks within my engineering firm.</description>
+      <content:encoded>How I handle dependencies for Jupyter notebooks within my engineering firm.&lt;br /&gt;&lt;br /&gt;See full article at: &lt;a href="https://codecurrents.blog/article/2024-09-28"&gt;https://codecurrents.blog/article/2024-09-28&lt;/a&gt;</content:encoded>
+      <author>lavoie.michel@gmail.com (Michel Lavoie)</author>
+      <guid isPermaLink="false">https://codecurrents.blog/article/2024-09-28</guid>
+      <pubDate>Sat, 28 Sep 2024 00:00:00 -0400</pubDate>
+    </item>
     <item>
       <title>Building a Personal Knowledge Base with Obsidian</title>
       <link>https://codecurrents.blog/article/2023-12-09</link>
