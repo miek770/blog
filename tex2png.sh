@@ -10,14 +10,17 @@
 
 # Determine the template file to use based on the optional argument
 if [[ "$3" == "--small" ]]; then
-  echo "Converting LaTeX string '$1' to $2.png..."
+  echo " - Converting LaTeX string '$1' to $2.png..."
   template="inline"
 else
-  echo "Converting LaTeX formula '$1' to $2.png..."
+  echo " - Converting LaTeX formula '$1' to $2.png..."
   template="formula"
 fi
 
-# Create the PDF, using `formula.tex` as a template
+# Create the tmp directory if it doesn't exist
+mkdir -p tmp
+
+# Create the PDF
 pdflatex -output-directory tmp "\def\formula{$1}\input{$template}.tex"
 
 # Create the PNG
