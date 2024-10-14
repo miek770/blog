@@ -4,6 +4,7 @@ from pathlib import Path
 import configparser
 import dataset
 from fastapi import Request
+from typing import Optional
 
 
 config = configparser.ConfigParser()
@@ -107,12 +108,18 @@ def render_markdown_article(path: Path):
             link = f"[{title}](#{target})"
 
             # The levels start at zero for simplicity
-            level = len(line.split("# ")[0])
+            level = len(line.split("# ")[0]) - 1
+
+            # Ignore the article title
+            if level < 0:
+                continue
+
             toc.append("   " * (level) + " - " + link)
+
         ui.markdown("\n".join(toc))
 
         # Print the article, including the link targets
-        md = []
+        md: list = []
         in_code_block = False
         for line in path.open():
             if line.startswith("```"):
@@ -144,7 +151,7 @@ def briefs():
                     ui.label(f"Posted on {brief_path.stem}")
 
 
-def header(date: str = None):
+def header(date: Optional[str]=None):
     # Google Search Console - Domain ownership verification
     ui.add_head_html(
         '<meta name="google-site-verification" content="xi7cLV-1mZiR8aMFkTLu4uWV8KdkK3D3lZURe_Luyy4" />'
@@ -192,7 +199,7 @@ def rss_feed():
 # Only serves during debugging / testing
 # Nginx serves this file in production
 @ui.page("/robots.txt")
-def rss_feed():
+def robots():
     with open(f"{config['Path']['static']}/robots.txt", "r") as file:
         for line in file:
             ui.label(line)
