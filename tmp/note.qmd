@@ -1,0 +1,72 @@
+---
+title: "Voltage Drop Calculation"
+format:
+    html:
+        echo: false
+    pdf:
+        echo: false
+jupyter: python3
+---
+
+\tableofcontents
+
+# Introduction
+
+This note calculates the voltage drop across a 3-phase circuit per the approximate formula from IEEE std. 141 [1].
+
+# Design Inputs
+
+```{python}
+from math import cos, sin, sqrt
+```
+
+Let's assume the load current, circuit resistance, circuit impedance and load angle are defined as:
+
+```{python}
+i_a = 200
+r_ohm = 0.04
+x_ohm = 0.05
+phi_rad = 0.45
+
+print(f"I = {i_a} A")
+print(f"R = {r_ohm} Ω")
+print(f"X = {x_ohm} Ω")
+print(f"φ = {phi_rad} rad")
+```
+
+# Calculations
+
+The voltage drop is calculated with the approximate formula from section 3.11.1 of IEEE std. 141 [1]:
+
+$V_{drop}=\sqrt{3} \times (I \times R \times cos\phi + I \times X \times sin\phi)$
+
+Where:
+
+ - $V_{drop}$ = Voltage drop in circuit, line to neutral (V)
+ - $I$ = Current flowing in conductor (A)
+ - $R$ = Line resistance for one conductor, considering its length (Ω)
+ - $X$ = Line reactance for one conductor, considering its length (Ω)
+ - $\phi$ = Angle whose cosine is the load power factor
+ - $cos\phi$ = Load power factor (decimals)
+ - $sin\phi$ = Load reactive factor (decimals)
+
+```{python}
+def voltage_drop_3_phases(I: int|float, R: float, X: float, φ: float) -> float:
+    return sqrt(3) * (I * R * cos(φ) + I * X * sin(φ))
+
+result = voltage_drop_3_phases(i_a, r_ohm, x_ohm, phi_rad)
+
+print(f"Voltage drop = {result:.2f} V")
+```
+
+# Conclusion
+
+This note shows that the voltage drop across the circuit equals:
+
+```{python}
+print(f"Voltage drop = {result:.2f} V")
+```
+
+# References
+
+[1] IEEE 141-1993, IEEE Recommended Practice for Electric Power Distribution for Industrial Plants
