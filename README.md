@@ -6,7 +6,7 @@ This is the code for my personnal blog, see this first article and guide for det
 
 New articles, written either as [Markdown](https://www.markdownguide.org/) files (\*.md) or [Jupyter Notebooks](https://jupyter.org/) (\*.ipynb), must be created in the `raws` directory. Their filename must be a date in ISO format (i.e.: `YYYY-MM-DD`), followed by the extension (e.g.: `2023-09-16.ipynb`).
 
-PNG images can be included in the `raws/media` subdirectory; they need to start with the relevant article's date, followed by `.png` (e.g.: `2023-09-16_Figure1.png`).
+PNG images can be included in the `raws/media` subdirectory; they need to start with the relevant article's date, followed by `.png` (e.g.: `2023-09-16_Figure1.png`). Their [Markdown](https://www.markdownguide.org/) line must use `png` or `img` as their alternative title, e.g.: `![png]( <image.ext> )`.
 
 Raw articles can be processed with `make publish`; only raws that have changed since the last execution of `make publish` will be processed. This process converts Notebooks to Markdown, converts LaTeX to images, extracts briefs, and retargets media files. The output is saved under `web/articles`, `web/briefs` and `web/media`.
 
